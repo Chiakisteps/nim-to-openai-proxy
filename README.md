@@ -75,3 +75,32 @@ The client never sees your NVAPI key, which is why we don't use it as the auth, 
 | Very slow responses | Using `mistral` (675B) or Chinese models during peak hours | Switch to `gemini-pro` or `mistral-turbo` |
 | Filter interrupts RP | Using Chinese-hosted model for mature content | Use `mistral`, `gemini-pro`, or `claude-3-opus` |
 | 404 on `/v1/chat/completions` | Auth mismatch | Verify `CLIENT_AUTH_KEY` matches between Railway and client |
+
+## Contributing
+
+This is a personal hobby project I built for my own use, but I'm happy if it helps others. If you spot a bug, want to suggest a model mapping, or have a small improvement, feel free to open an issue or PR. I can't promise fast responses since I maintain this in my free time, but I'll do my best.
+
+### What I'm open to
+- Model mapping updates (NIM deprecates things constantly)
+- Bug fixes
+- Small feature additions that don't complicate the core flow
+- Documentation improvements
+
+### What I'm less likely to merge
+- Major architectural changes (I want to keep this simple)
+- Features I don't personally use (harder for me to maintain)
+- Anything that adds complexity without clear benefit
+
+## Issues
+
+Before opening an issue, check if it's already covered in the [Troubleshooting](#troubleshooting) section. If a model stopped working, it's probably deprecated by NVIDIA — check the [NIM catalog](https://build.nvidia.com/) first.
+
+When reporting bugs, include:
+- Which model alias you were using
+- Whether streaming was enabled
+- The error message (or "All models failed" if that's what you got)
+- Your deployment platform (Railway, Render, etc.)
+
+## Disclaimer
+
+I am not a professional developer. This project was built with help from AI tools and community guides. It works for me, but your mileage may vary. Use at your own risk. I am still learning JS, so the speed at which I am able to fix issues, and respond to them will vary depending on the type of issue, and how common it is.
