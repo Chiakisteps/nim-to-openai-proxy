@@ -115,7 +115,7 @@ app.post('/v1/chat/completions', async (req, res) => {
     const { model, messages, temperature, max_tokens, stream } = req.body;
 
     const primaryModel =
-      MODEL_MAPPING[model] || 'meta/llama-3.1-8b-instruct';
+      MODEL_MAPPING[model] || 'nvidia/llama-3.3-nemotron-super-49b-v1.5';
 
     const modelChain = [primaryModel, ...FALLBACK_MODELS];
 
