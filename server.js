@@ -40,7 +40,7 @@ const NIM_API_KEY = process.env.NIM_API_KEY;
 const SHOW_REASONING = process.env.SHOW_REASONING === 'true';
 const ENABLE_THINKING_MODE = process.env.ENABLE_THINKING_MODE === 'true';
 
-const MAX_TOKENS_LIMIT = 32768;
+const MAX_TOKENS_LIMIT = 65536;
 
 if (SHOW_REASONING) console.log('[CONFIG] Reasoning display: ENABLED');
 if (ENABLE_THINKING_MODE) console.log('[CONFIG] Thinking mode: ENABLED');
