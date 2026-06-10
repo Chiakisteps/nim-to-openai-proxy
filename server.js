@@ -25,12 +25,12 @@ const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 const MAX_TOKENS_LIMIT = 65536;
 const REQUEST_TIMEOUT_MS = 180000;
 const VALIDATION_TIMEOUT_MS = 15000;
+const MAX_BUFFER_SIZE = 1024 * 1024; // 1MB
 
 if (SHOW_REASONING) console.log('[CONFIG] Reasoning display: ENABLED');
 if (ENABLE_THINKING_MODE) console.log('[CONFIG] Thinking mode: ENABLED');
 
 // ─── Config validation ──────────────────────────────────────────────────────
-
 
 function validateConfig() {
   const fatal = (msg) => { console.error(`[FATAL] ${msg}`); process.exit(1); };
@@ -43,7 +43,6 @@ function validateConfig() {
 }
 
 validateConfig();
-
 
 // ─── Model Mapping ─────────────────────────────────────────────────────────
 
@@ -214,7 +213,7 @@ async function sendDiscordAlert(invalidModels) {
 // FIX: Wrap res.write in try/catch to prevent crashes on closed sockets
 function safeWrite(res, data) {
   try {
-    if (!res.writableEnded && res.writable) {
+    if (!res.writableEnded && !res.destroyed && res.writable) {
       res.write(data);
       return true;
     }
@@ -262,7 +261,7 @@ async function callWithFallback(baseRequest, models) {
 // ─── Routes ────────────────────────────────────────────────────────────────
 
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', version: '2.0.0' });
+  res.json({ status: 'ok', version: '2.1.0' });
 });
 
 app.get('/v1/models', (req, res) => {
@@ -316,6 +315,16 @@ app.post('/v1/chat/completions', async (req, res) => {
       let buffer = '';
       let reasoningOpen = false;
       let doneSent = false;
+      let cleanedUp = false;
+
+      const cleanup = () => {
+        if (cleanedUp) return;
+        cleanedUp = true;
+        if (upstreamStream) {
+          upstreamStream.removeAllListeners();
+        }
+        req.removeAllListeners('close');
+      };
 
       const processLine = (line) => {
         if (!line.startsWith('data: ')) return;
@@ -372,6 +381,22 @@ app.post('/v1/chat/completions', async (req, res) => {
 
       upstreamStream.on('data', chunk => {
         buffer += decoder.write(chunk);
+
+        if (buffer.length > MAX_BUFFER_SIZE) {
+          console.error('[STREAM] Buffer overflow, destroying connection');
+          safeWrite(res, `data: ${JSON.stringify({ 
+            error: { 
+              message: 'Stream buffer overflow', 
+              type: 'stream_error' 
+            } 
+          })}\n\n`);
+          safeWrite(res, 'data: [DONE]\n\n');
+          res.end();
+          upstreamStream.destroy();
+          cleanup();
+          return;
+        }
+
         const lines = buffer.split('\n');
         buffer = lines.pop() || '';
 
@@ -397,6 +422,7 @@ app.post('/v1/chat/completions', async (req, res) => {
         if (!res.writableEnded) {
           res.end();
         }
+        cleanup();
       });
 
       upstreamStream.on('error', err => {
@@ -412,12 +438,13 @@ app.post('/v1/chat/completions', async (req, res) => {
           safeWrite(res, 'data: [DONE]\n\n');
           res.end();
         }
+        cleanup();
       });
 
-      // FIX: Check req.aborted (Express 4) or req.destroyed (Node/Express 5) 
+      // FIX: Check req.destroyed (Node/Express 5) 
       // Don't destroy already-finished streams
       req.on('close', () => {
-        const clientGone = req.aborted || req.destroyed || !res.writable;
+        const clientGone = req.destroyed || !res.writable;
         
         if (!streamEndedCleanly && clientGone) {
           console.warn('[STREAM] Client disconnected prematurely');
@@ -426,6 +453,7 @@ app.post('/v1/chat/completions', async (req, res) => {
         if (upstreamStream && !upstreamStream.destroyed && !streamEndedCleanly) {
           upstreamStream.destroy();
         }
+        cleanup();
       });
 
     } else {
@@ -515,4 +543,4 @@ app.listen(PORT, () => {
     console.error('[VALIDATION] Startup check failed:', err.message);
   });
 });
-              
+  
