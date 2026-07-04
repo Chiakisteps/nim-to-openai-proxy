@@ -1,3 +1,8 @@
+### If you forked before June 7, 2026, please pull the latest version — previous versions had an auth bypass and startup DDoS vulnerability.
+
+### Guys. Just don't use reasoning at this point. There's not a single standard that nim follows that I could make use of. The reasoning on one model works, then I fix it for the other and the first breaks.
+
+
 ### NVIDIA NIM to OpenAI Proxy
 Hello, this is my first ever project on Github that I am making public. This is essentially just a translation layer between the API format that NVIDIA NIM uses to the format OpenAI uses. I made this originally by building on a script from a Reddit guide. Over the time of a month I've iterated on it, fixed problems, added auth, more models, and removed/replaced deprecated models.
 These are the current available models for usage, and the use cases for all of them. (Note: The Google models are mostly for troubleshooting issues with latency and timeouts.)
@@ -13,15 +18,15 @@ Yes, it's legal. It's just HTTP requests routed through your own proxy. You stil
 
 ### Requirements
 
-Node.js 18+, a NVAPI/Nim API key, a deployment platform (though if you follow the guide below none of those should be a problem).
+Node.js 24+, a NVAPI/Nim API key, a deployment platform (though if you follow the guide below none of those should be a problem).
 
 ### Model Mapping
 
 | Alias | Backend Model | Best For | Speed | Filters |
 |---|---|---|---|---|
 | `gpt-4-turbo` | `moonshotai/kimi-k2.6` | Deep, immersive RP | Medium | Medium-High |
-| `gpt-4o` | `deepseek-ai/deepseek-v4-pro` | Complex plots, reasoning | Medium | High |
-| `gpt-4` | `qwen/qwen3-coder-480b-a35b-instruct` | Tech/cyberpunk personas | Slow | Medium |
+| `gpt-4` | `nvidia/nemotron-3-ultra-550b-a55b` | Immersive RP | Fast | Low |
+| `gpt-4o` | `deepseek-ai/deepseek-v4-pro` |
 | `gpt-4-flash` | `deepseek-ai/deepseek-v4-flash` | Fast, non-edgy RP | Fast | High |
 | `gpt-3.5o` | `nvidia/nemotron-mini-4b-instruct` | Lightweight RP, fast responses | Very Fast | Low |
 | `gemini-pro` | `nvidia/llama-3.3-nemotron-super-49b-v1.5` | Daily driver, low latency | Fast | Low |
@@ -41,7 +46,9 @@ Node.js 18+, a NVAPI/Nim API key, a deployment platform (though if you follow th
 | `google-lighter` | `google/gemma-3n-e4b-it` | Mostly testing only | Very Fast | Low-Medium |
 | `google-lightest` | `google/gemma-2-2b-it` | Testing only | Extremely fast | Low |
 | `m2.7` | `minimaxai/minimax-m2.7` | Experimental | Medium | Unknown (to me) |
+| `m3` | `minimaxai/minimax-m3` | Experimental | fast | Unknown (to me) |
 | `step-3.5-flash` | `stepfun-ai/step-3.5-flash` | Chinese creative model | Fast | Medium |
+| `step-3.7-flash` | `stepfun-ai/step-3.7-flash` | Chinese creative model | Fast | Medium |
 
 ### Filter Guide
 
@@ -91,6 +98,7 @@ After deploying, you can set these in Railway's **Variables** tab:
 | `ENABLE_THINKING_MODE` | `true` | Sends thinking parameters to supported models |
 | `DISCORD_WEBHOOK_URL` | Webhook URL | Alerts you when models fail validation |
 | `SKIP_VALIDATION` | `true` | Disables startup model checks |
+
 
 Set to `false` or remove to disable. Changes apply without redeploying.
 
