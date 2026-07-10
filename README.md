@@ -57,7 +57,6 @@ Node.js 24+, a NVAPI/Nim API key, a deployment platform (though if you follow th
 | Dark themes, violence, mature content | `gpt-4o`, `gpt-4-flash`, `gpt-4-turbo` (They have high filters due to being based in China) | `mistral`, `gemini-pro`, `claude-3-opus` |
 | Fast responses needed | `mistral` (675B) | `gemini-pro`, `mistral-turbo`, `gpt-3.5o` |
 | Long context / memory | Anything under 30B | `gpt-4-turbo`, `mistral`, `gpt-4` |
-| Technical/coding personas | Anything except `gpt-4` | `gpt-4` (Qwen Coder) |
 | Testing / very fast replies | — | `google-lightest`, `gpt-3.5o` |
 
 ### Fallback Chain
