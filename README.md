@@ -1,5 +1,5 @@
 ### Announcement 
-## Due to personal health I will no longer be able to maintain this project. It has been fun and hearing feedback from a bunch of you has helped me maintain it, but I will be stopping here. If someone is interested in continuing to maintain this, you can reach out to me on discord and I'll add a link here to refer to your repo.
+Due to personal health I will no longer be able to maintain this project. It has been fun and hearing feedback from a bunch of you has helped me maintain it, but I will be stopping here. If someone is interested in continuing to maintain this, you can reach out to me on discord and I'll add a link here to refer to your repo.
 
 
 
