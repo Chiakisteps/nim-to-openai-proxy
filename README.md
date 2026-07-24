@@ -1,3 +1,8 @@
+### Announcement 
+Due to personal health I will no longer be able to maintain this project. It has been fun and hearing feedback from a bunch of you has helped me maintain it, but I will be stopping here. If someone is interested in continuing to maintain this, you can reach out to me on discord and I'll add a link here to refer to your repo.
+
+
+
 ### If you forked before June 7, 2026, please pull the latest version — previous versions had an auth bypass and startup DDoS vulnerability.
 
 ### Guys. Just don't use reasoning at this point. There's not a single standard that nim follows that I could make use of. The reasoning on one model works, then I fix it for the other and the first breaks.
@@ -143,7 +148,3 @@ Need to reach out faster? Add me on discord `Jonttex`.
 ## Disclaimer
 
 I am not a professional developer. This project was built with help from AI tools and community guides. It works for me, but your mileage may vary. Use at your own risk. I am still learning JS, so the speed at which I am able to fix issues, and respond to them will vary depending on the type of issue, and how common it is.
-
-## Support my sanity during deprecation season
-
-[You dont need to support me but it helps me continue to maintain my code which is already held together with hopes and dreams.](https://ko-fi.com/jontte6)
