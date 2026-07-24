@@ -64,7 +64,7 @@ const MODEL_MAPPING = {
   'mistral-turbo': 'mistralai/mistral-medium-3.5-128b',
   'mistral-pro': 'mistralai/mistral-small-4-119b-2603',
   'mistral-nemo': 'mistralai/mistral-nemotron',
-  'mistral-fast': 'mistralai/ministral-14b-instruct-2512',
+  'mistral-fast': 'nvidia/nemotron-3.5-nano-30b-a3b',
   'google-light': 'google/gemma-4-31b-it',
   'google-lightest': 'minimaxai/minimax-m3',
   'google-lighter': 'google/gemma-3n-e4b-it',
