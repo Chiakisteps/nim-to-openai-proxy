@@ -90,7 +90,7 @@ const MODEL_MAPPING = {
   'google-light': 'google/gemma-4-31b-it',
   'google-lightest': 'minimaxai/minimax-m3',
   'google-lighter': 'google/gemma-3n-e4b-it',
-  'm2.7': 'minimaxai/minimax-m2.7',
+  'm2.7': 'moonshotai/kimi-k3',
   'm3': 'minimaxai/minimax-m3',
   'step-3.5-flash': 'stepfun-ai/step-3.5-flash',
   'step-3.7-flash': 'stepfun-ai/step-3.7-flash'
